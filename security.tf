@@ -14,6 +14,10 @@
 
 resource "exoscale_security_group" "sks" {
   name = local.sg_name
+
+  depends_on = [
+    exoscale_sks_cluster.cluster
+  ]
 }
 
 resource "exoscale_security_group_rules" "sks" {

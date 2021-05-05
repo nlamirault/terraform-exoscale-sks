@@ -1,3 +1,5 @@
+
+
 # Copyright (C) 2021 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource "exoscale_sks_nodepool" "core" {
-  count = length(var.node_pools)
+config {
+  module = false
+  force = false
+  disabled_by_default = false
 
-  zone          = var.zone
-  cluster_id    = exoscale_sks_cluster.cluster.id
-  name          = var.node_pools[count.index].name
-  instance_type = var.node_pools[count.index].instance_type
-  size          = var.node_pools[count.index].size
+  ignore_module = {
+  }
 
-  security_group_ids = [exoscale_security_group.sks.id]
 }
+
+# plugin "exoscale" {
+#   enabled = true
+# }

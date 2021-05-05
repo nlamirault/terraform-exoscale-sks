@@ -11,15 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-resource "exoscale_sks_nodepool" "core" {
-  count = length(var.node_pools)
-
-  zone          = var.zone
-  cluster_id    = exoscale_sks_cluster.cluster.id
-  name          = var.node_pools[count.index].name
-  instance_type = var.node_pools[count.index].instance_type
-  size          = var.node_pools[count.index].size
-
-  security_group_ids = [exoscale_security_group.sks.id]
-}
