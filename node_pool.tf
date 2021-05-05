@@ -12,17 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# name: Project / Pre-commit
+resource "exoscale_sks_nodepool" "core" {
+  count = length(var.node_pools)
 
-# on:
-#   pull_request:
-#   push:
-#     branches: [master]
+  zone          = var.zone
+  cluster_id    = exoscale_sks_cluster.cluster.id
+  name          = var.node_pools[count.index].name
+  instance_type = var.node_pools[count.index].instance_type
+  size          = var.node_pools[count.index].size
 
-# jobs:
-#   pre-commit:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v2
-#     - uses: actions/setup-python@v2
-#     - uses: pre-commit/action@v2.0.0
+  security_group_ids = [exoscale_security_group.sks.id]
+}
