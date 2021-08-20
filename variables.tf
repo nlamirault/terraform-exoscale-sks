@@ -1,3 +1,17 @@
+# Copyright (C) 2021 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 variable "name" {
   description = "The name of the SKS cluster."
   type        = string
@@ -23,17 +37,30 @@ variable "cni" {
   description = "The Kubernetes CNI plugin to be deployed in the SKS cluster control plane"
 }
 
-variable "addons" {
-  type        = list(string)
-  description = "A list of optional add-ons to be deployed in the SKS cluster control plane"
+variable "exoscale_ccm" {
+  type        = bool
+  description = "Deploy the Exoscale Cloud Controller Manager in the SKS cluster control plane_"
+  default     = true
+}
+
+variable "metrics_server" {
+  type        = bool
+  description = "Deploy the Kubernetes Metrics Server in the SKS cluster control plane"
+  default     = true
+}
+
+variable "auto_upgrade" {
+  type        = bool
+  description = "Enable automatic upgrading of the SKS cluster control plane Kubernetes version"
+  default     = true
 }
 
 variable "node_pools" {
   description = "The SKS node pools to create."
   type = list(object({
-    name           = string
-    instance_type  = string
-    size           = number
+    name          = string
+    instance_type = string
+    size          = number
   }))
   default = []
 }

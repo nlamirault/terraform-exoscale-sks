@@ -20,6 +20,9 @@ resource "exoscale_sks_cluster" "cluster" {
   service_level = var.service_level
 
   version = var.kubernetes_version
-  cni     = var.cni
-  addons  = var.addons
+
+  cni            = var.cni
+  exoscale_ccm   = var.exoscale_ccm
+  metrics_server = var.metrics_server
+  auto_upgrade   = var.auto_upgrade
 }
