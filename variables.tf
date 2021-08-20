@@ -23,9 +23,22 @@ variable "cni" {
   description = "The Kubernetes CNI plugin to be deployed in the SKS cluster control plane"
 }
 
-variable "addons" {
-  type        = list(string)
-  description = "A list of optional add-ons to be deployed in the SKS cluster control plane"
+variable "exoscale_ccm" {
+  type        = bool
+  description = "Deploy the Exoscale Cloud Controller Manager in the SKS cluster control plane_"
+  default     = true
+}
+
+variable "metrics_server" {
+  type        = bool
+  description = "Deploy the Kubernetes Metrics Server in the SKS cluster control plane"
+  default     = true
+}
+
+variable "auto_upgrade" {
+  type        = bool
+  description = "Enable automatic upgrading of the SKS cluster control plane Kubernetes version"
+  default     = true
 }
 
 variable "node_pools" {
