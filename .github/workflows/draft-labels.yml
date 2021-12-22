@@ -12,28 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# name: "Label PRs from globs"
-# on:
-#   schedule:
-#   - cron: "0 * * * *"
+name: Project / Draft PR Labels
 
-# jobs:
-#   execute:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: jpmcb/prow-github-actions@v1.1.1
-#         with:
-#           jobs: 'pr-labeler'
-#           github-token: "${{ secrets.GITHUB_TOKEN }}"
-
-name: Prow / Pull Request Labeler
 on:
-- pull_request_target
+  pull_request:
+    types: [opened, ready_for_review]
 
 jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/labeler@main
+    - name: label swapping
+      uses: jinmayamashita/ready-for-review@1.0.0
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        in-progress-label: 'status/in_progress'
+        ready-for-review-label: 'status/review_needed'
+        repo-token: ${{ secrets.GITHUB_TOKEN }}

@@ -12,28 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# name: "Label PRs from globs"
+# name: Project / Pre-commit
+
 # on:
-#   schedule:
-#   - cron: "0 * * * *"
+#   pull_request:
+#   push:
+#     branches: [master]
 
 # jobs:
-#   execute:
+#   pre-commit:
 #     runs-on: ubuntu-latest
 #     steps:
-#       - uses: jpmcb/prow-github-actions@v1.1.1
-#         with:
-#           jobs: 'pr-labeler'
-#           github-token: "${{ secrets.GITHUB_TOKEN }}"
-
-name: Prow / Pull Request Labeler
-on:
-- pull_request_target
-
-jobs:
-  triage:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/labeler@main
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+#     - uses: actions/checkout@v2
+#     - uses: actions/setup-python@v2
+#     - uses: pre-commit/action@v2.0.0
