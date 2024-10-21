@@ -21,5 +21,5 @@ resource "exoscale_sks_nodepool" "core" {
   instance_type = var.node_pools[count.index].instance_type
   size          = var.node_pools[count.index].size
 
-  security_group_ids = [exoscale_security_group.sks.id]
+  security_group_ids = [exoscale_security_group.this.id]
 }
