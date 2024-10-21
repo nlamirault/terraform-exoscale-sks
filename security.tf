@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource "exoscale_security_group" "sks" {
+resource "exoscale_security_group" "this" {
   name = local.sg_name
 
   depends_on = [
@@ -20,27 +20,29 @@ resource "exoscale_security_group" "sks" {
   ]
 }
 
-resource "exoscale_security_group_rules" "sks" {
-  security_group = exoscale_security_group.sks.name
+resource "exoscale_security_group_rule" "logs_rule" {
+  security_group_id = exoscale_security_group.this.id
+  type              = "INGRESS"
+  protocol          = "TCP"
+  cidr              = "0.0.0.0/0"
+  start_port        = 10250
+  end_port          = 10250
+}
 
-  ingress {
-    description              = "Calico traffic"
-    protocol                 = "UDP"
-    ports                    = ["4789"]
-    user_security_group_list = [exoscale_security_group.sks.name]
-  }
+resource "exoscale_security_group_rule" "calico" {
+  security_group_id      = exoscale_security_group.this.id
+  user_security_group_id = exoscale_security_group.this.id
+  type                   = "INGRESS"
+  protocol               = "UDP"
+  start_port             = 4789
+  end_port               = 4789
+}
 
-  ingress {
-    description = "Nodes logs/exec"
-    protocol    = "TCP"
-    ports       = ["10250"]
-    cidr_list   = ["0.0.0.0/0", "::/0"]
-  }
-
-  ingress {
-    description = "NodePort services"
-    protocol    = "TCP"
-    cidr_list   = ["0.0.0.0/0", "::/0"]
-    ports       = ["30000-32767"]
-  }
+resource "exoscale_security_group_rule" "ccm" {
+  security_group_id = exoscale_security_group.this.id
+  type              = "INGRESS"
+  protocol          = "TCP"
+  start_port        = 30000
+  end_port          = 32767
+  cidr              = "0.0.0.0/0"
 }
